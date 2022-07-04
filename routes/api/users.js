@@ -66,6 +66,42 @@ router.post('/register', (request,response) => {
 });
 
 
+// route users to login with their credentials
+router.post('/login', (request,response) => {
+			
+			const email = request.body.email;
+	const password = request.body.password;
+
+	// use bycrpt and password to look up said user for the inputted credentials
+	// this one will check for the email findOne is self explanatory
+	User.findOne({email}).then(user => {
+		if(!user){
+				// if user email not found return json error response
+				return response.status(404).json({email : "This user does not exist"});
+
+		}
+		
+					// user email must then exists using bcrypt to verifiy password
+					
+			bcrypt.compare(password, user.password)
+			.then(isMatch => {
+				if(isMatch){
+					return response.json({msg: "Login Successful!"});
+				}
+				else{
+					return response.status(400).json({password:"is incorrect"});
+				}
+
+			})
+	})
+
+
+});
+
+
+
+
+
 
 module.exports = router;
 
