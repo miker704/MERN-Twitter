@@ -40,7 +40,7 @@ router.post('/register', (request,response) => {
 			})
 			
 
-			//bcryptjs comes in here where we encrypt the password with blowfish algo
+			//bcryptjs comes in here where we encrypt the password with blo:wfish algo
 			bcrypt.genSalt(10,(err,salt) =>{
 
 				bcrypt.hash(newUser.password, salt,(err,hash)=>{
