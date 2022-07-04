@@ -94,7 +94,9 @@ router.post('/login', (request,response) => {
 						handle: user.handle,
 						email: user.email
 					}
-
+					jwt.sign(payload,keys.secretOrKey, {expiresIn: 3600}, (err, token) => {
+						response.json({success: true, token: "Bearer "+ token});
+					})
 
 				}
 				else{
