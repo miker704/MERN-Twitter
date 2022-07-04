@@ -3,12 +3,37 @@
 
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+const db = require("./config/keys").mongoURI;
+const users = require("./routes/users");
+const tweets = require("./routes/tweets");
+
+
+
+
+
+
+
+mongoose
+    .connect(db,{useNewUrlParser: true})
+    .then(()=> console.log("Connected to MongoDB"))
+    .catch(err=> console.log(err));
 
 
 
 app.get("/",(request,res) => {
+    // console.log(res);
+    //debugger
 res.send("Hello App/acc");
 });
+
+
+//use the routes made in the users and tweets file 
+
+app.use("/api/users", users);
+app.use("/api/tweets", tweets);
+
+
 
 
 const port = process.env.PORT || 5000;
