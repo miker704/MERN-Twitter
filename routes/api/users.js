@@ -13,8 +13,8 @@ const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
 const keys = require('../../config/keys');
 const jwt = require("jsonwebtoken");
-
-
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 router.get("/test",(request,response) => {
         response.json({msg:"This is the users Route being called"});
@@ -22,7 +22,15 @@ router.get("/test",(request,response) => {
 
 
 router.post('/register', (request,response) => {
-			
+
+
+	const {errors, isValid} = validateRegisterInput(request.body);
+	if(!isValid){
+		return response.status(400).json(errors);
+	}
+
+
+
 	//conditon to validate unique emails only flag error if email is already registered;
 	User.findOne({email: request.body.email}).then( user => {
 
