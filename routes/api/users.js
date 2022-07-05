@@ -77,6 +77,11 @@ router.post('/register', (request,response) => {
 
 // route users to login with their credentials
 router.post('/login', (request,response) => {
+
+	const  {errors, isValid} = validateLoginInput(request.body);
+	if(!isValid){
+		return response.status(400).json(errors);
+	}
 			
 			const email = request.body.email;
 	const password = request.body.password;
